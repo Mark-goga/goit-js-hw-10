@@ -58,22 +58,26 @@ function pad(value) {
   return String(value).padStart(2, '0'); // 1 -> 01 || 12 -> 12
 }
 
-buttonEl.addEventListener('click', () => {
-    itervalID = setInterval(() => {
-    currentTime = Date.now();
-    buttonEl.disabled = true;
-    inputEl.disabled = true;
+buttonEl.addEventListener("click", () => {
+    const intervalID = setInterval(() => {
+    const currentTime = Date.now();
     const deltaTime = userSelectedDate.getTime() - currentTime;
-    const time = convertMs(deltaTime);
-    const { seconds, minutes, hours, days } = time;
-    spanDayEl.textContent = days;
-    spanHourEl.textContent = hours;
-    spanMinutesEl.textContent = minutes;
-    spanSecondsEl.textContent = seconds;
-    if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
-        clearInterval(itervalID);
-        buttonEl.disabled = false;
-        inputEl.disabled = false;
+
+    if (deltaTime <= 0) {
+      clearInterval(intervalID); 
+      buttonEl.disabled = false;
+      inputEl.disabled = false;
+      spanDayEl.textContent = '00';
+      spanHourEl.textContent = '00';
+      spanMinutesEl.textContent = '00';
+      spanSecondsEl.textContent = '00';
+    } else {
+      const time = convertMs(deltaTime);
+      const { seconds, minutes, hours, days } = time;
+      spanDayEl.textContent = days;
+      spanHourEl.textContent = hours;
+      spanMinutesEl.textContent = minutes;
+      spanSecondsEl.textContent = seconds;
     }
-}, 1000);
+  }, 1000);
 });
